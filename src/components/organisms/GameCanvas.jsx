@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useSpeechSynthesis } from 'react-speech-synthesis'
-import ApperIcon from '@/components/ApperIcon'
-import Button from '@/components/atoms/Button'
-import StarRating from '@/components/atoms/StarRating'
-const StoryBook = ({ 
-  story, 
-  onComplete, 
-  onExit 
-}) => {
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useSpeechSynthesis } from "react-speech-synthesis";
+import ApperIcon from "@/components/ApperIcon";
+import StarRating from "@/components/atoms/StarRating";
+import Button from "@/components/atoms/Button";
+
+// StoryBook Component for reading activities
+function StoryBook({ story, onComplete, onExit }) {
   const { speak, cancel, speaking, voices } = useSpeechSynthesis()
   const [currentPage, setCurrentPage] = useState(0)
   const [currentWordIndex, setCurrentWordIndex] = useState(-1)
@@ -367,18 +365,13 @@ const GameCanvas = ({
   const [showFeedback, setShowFeedback] = useState(false)
   const [correctAnswers, setCorrectAnswers] = useState(0)
   
-  // If this is a storybook, render StoryBook component
-  if (game.category === 'storybook') {
-    return (
-      <StoryBook 
-        story={game}
-        onComplete={onComplete}
-        onExit={onExit}
-      />
-    )
-  }
   // Generate questions based on game type and difficulty
   useEffect(() => {
+    // Skip question generation for storybooks
+    if (game.category === 'storybook') {
+      return
+    }
+    
     const generateQuestions = () => {
       const questionCount = difficulty === 'easy' ? 5 : difficulty === 'medium' ? 8 : 12
       const newQuestions = []
@@ -435,15 +428,34 @@ const GameCanvas = ({
   
   // Timer
   useEffect(() => {
+    // Skip timer for storybooks
+    if (game.category === 'storybook') {
+      return
+    }
+    
     let interval
     if (gameState === 'playing') {
       interval = setInterval(() => {
         setTimeElapsed(prev => prev + 1)
       }, 1000)
     }
-    return () => clearInterval(interval)
-  }, [gameState])
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [gameState, game.category])
   
+  // If this is a storybook, render StoryBook component
+  if (game.category === 'storybook') {
+    return (
+      <StoryBook 
+        story={game}
+        onComplete={onComplete}
+        onExit={onExit}
+      />
+    )
+  }
   const generateCountingOptions = (correct) => {
     const options = [correct]
     while (options.length < 4) {
