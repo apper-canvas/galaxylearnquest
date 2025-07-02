@@ -21,8 +21,9 @@ const Layout = () => {
   const isChildInterface = !location.pathname.includes('parent-dashboard')
   const isHomePage = location.pathname === '/'
   
-  const navigationItems = [
+const navigationItems = [
     { id: 'world-map', label: 'Adventure Map', icon: 'Map', path: '/world-map' },
+    { id: 'stories', label: 'Stories', icon: 'BookOpen', path: '/stories' },
     { id: 'profile', label: 'My Character', icon: 'User', path: '/profile' },
     { id: 'rewards', label: 'Rewards', icon: 'Gift', path: '/profile' },
   ]
@@ -255,10 +256,10 @@ const Layout = () => {
         <Outlet />
       </main>
       
-      {/* Bottom Navigation for Mobile (Child Interface Only) */}
+{/* Bottom Navigation for Mobile (Child Interface Only) */}
       {isChildInterface && (
         <div className="md:hidden bg-white border-t border-primary/10 sticky bottom-0 z-30">
-          <div className="grid grid-cols-3 gap-1 p-2">
+          <div className="grid grid-cols-4 gap-1 p-2">
             {navigationItems.map((item) => (
               <button
                 key={item.id}

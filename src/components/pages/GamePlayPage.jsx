@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { toast } from 'react-toastify'
-import GameCanvas from '@/components/organisms/GameCanvas'
-import Loading from '@/components/ui/Loading'
-import Error from '@/components/ui/Error'
-import Button from '@/components/atoms/Button'
-import StarRating from '@/components/atoms/StarRating'
-import ApperIcon from '@/components/ApperIcon'
-import { gameService } from '@/services/api/gameService'
-import { profileService } from '@/services/api/profileService'
-import { dailyGoalService } from '@/services/api/dailyGoalService'
-
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import GameCanvas from "@/components/organisms/GameCanvas";
+import StarRating from "@/components/atoms/StarRating";
+import Button from "@/components/atoms/Button";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import { profileService } from "@/services/api/profileService";
+import { gameService } from "@/services/api/gameService";
+import { dailyGoalService } from "@/services/api/dailyGoalService";
 const GamePlayPage = () => {
-  const { gameId } = useParams()
+  const { gameId, storyId } = useParams()
   const navigate = useNavigate()
   const [game, setGame] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -23,21 +22,21 @@ const GamePlayPage = () => {
   const [gameResults, setGameResults] = useState(null)
   const [difficulty, setDifficulty] = useState('easy')
   const [showConfetti, setShowConfetti] = useState(false)
-  
   useEffect(() => {
     const profile = localStorage.getItem('currentProfile')
     if (profile) {
       setCurrentProfile(JSON.parse(profile))
     }
-    loadGame()
-  }, [gameId])
+loadGame()
+  }, [gameId, storyId])
   
-  const loadGame = async () => {
+const loadGame = async () => {
     try {
       setLoading(true)
       setError('')
       
-      const gameData = await gameService.getGameById(parseInt(gameId))
+      const id = gameId || storyId
+      const gameData = await gameService.getGameById(parseInt(id))
       if (!gameData) {
         throw new Error('Game not found')
       }
@@ -72,24 +71,24 @@ const GamePlayPage = () => {
       const profile = JSON.parse(localStorage.getItem('currentProfile') || '{}')
       if (!profile.Id) return
       
-      // Update game progress
+// Update game progress
+      const id = gameId || storyId
       await gameService.updateProgress({
         profileId: profile.Id,
-        gameId: parseInt(gameId),
+        gameId: parseInt(id),
         highScore: results.score,
         starsEarned: results.stars,
         difficultyLevel: results.difficulty
       })
       
-      // Update daily goal
+// Update daily goal
       const skillsPracticed = game.skills || []
       await dailyGoalService.updateGoalProgress(
         profile.Id,
         Math.ceil(results.timeElapsed / 60), // Convert to minutes
-        parseInt(gameId),
+        parseInt(id),
         skillsPracticed
       )
-      
       // Update profile stats
       const coinsEarned = results.stars * 10
       const updatedProfile = await profileService.update(profile.Id, {
@@ -116,9 +115,13 @@ const GamePlayPage = () => {
     }
   }
   
-  const handleExit = () => {
+const handleExit = () => {
     if (game) {
-      navigate(`/world/${game.worldId}/games`)
+      if (game.category === 'storybook') {
+        navigate('/stories')
+      } else {
+        navigate(`/world/${game.worldId}/games`)
+      }
     } else {
       navigate('/world-map')
     }
@@ -130,19 +133,36 @@ const GamePlayPage = () => {
     setShowConfetti(false)
   }
   
-  const handleNextGame = async () => {
+const handleNextGame = async () => {
     try {
-      const worldGames = await gameService.getGamesByWorld(game.worldId)
-      const currentIndex = worldGames.findIndex(g => g.Id === parseInt(gameId))
-      const nextGame = worldGames[currentIndex + 1]
-      
-      if (nextGame && nextGame.isUnlocked) {
-        navigate(`/game/${nextGame.Id}`)
+      const id = gameId || storyId
+      if (game.category === 'storybook') {
+        const stories = await gameService.getStoriesByWorld('reading')
+        const currentIndex = stories.findIndex(s => s.Id === parseInt(id))
+        const nextStory = stories[currentIndex + 1]
+        
+        if (nextStory && nextStory.isUnlocked) {
+          navigate(`/story/${nextStory.Id}`)
+        } else {
+          navigate('/stories')
+        }
+      } else {
+        const worldGames = await gameService.getGamesByWorld(game.worldId)
+        const currentIndex = worldGames.findIndex(g => g.Id === parseInt(id))
+        const nextGame = worldGames[currentIndex + 1]
+        
+        if (nextGame && nextGame.isUnlocked) {
+          navigate(`/game/${nextGame.Id}`)
+        } else {
+          navigate(`/world/${game.worldId}/games`)
+        }
+      }
+    } catch (err) {
+      if (game.category === 'storybook') {
+        navigate('/stories')
       } else {
         navigate(`/world/${game.worldId}/games`)
       }
-    } catch (err) {
-      navigate(`/world/${game.worldId}/games`)
     }
   }
   

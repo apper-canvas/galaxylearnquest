@@ -7,9 +7,13 @@ import StarRating from '@/components/atoms/StarRating'
 const GameCard = ({ game, progress, isLocked = false, className = '' }) => {
   const navigate = useNavigate()
   
-  const handlePlay = () => {
+const handlePlay = () => {
     if (!isLocked) {
-      navigate(`/game/${game.Id}`)
+      if (game.category === 'storybook') {
+        navigate(`/story/${game.Id}`)
+      } else {
+        navigate(`/game/${game.Id}`)
+      }
     }
   }
   
@@ -37,8 +41,12 @@ const GameCard = ({ game, progress, isLocked = false, className = '' }) => {
       )}
       
       <div className="relative z-10">
-        {/* Game Icon */}
-        <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-4 shadow-md">
+{/* Game Icon */}
+        <div className={`w-12 h-12 bg-gradient-to-br ${
+          game.category === 'storybook' 
+            ? 'from-accent to-warning' 
+            : 'from-primary to-secondary'
+        } rounded-xl flex items-center justify-center mb-4 shadow-md`}>
           <ApperIcon name={game.iconName} size={24} className="text-white" />
         </div>
         
@@ -57,14 +65,14 @@ const GameCard = ({ game, progress, isLocked = false, className = '' }) => {
             animated={false}
           />
           
-          {!isLocked && (
+{!isLocked && (
             <div className="flex items-center gap-2">
               {progress?.timesPlayed > 0 && (
                 <span className="text-xs text-gray-500 font-body">
-                  Played {progress.timesPlayed}x
+                  {game.category === 'storybook' ? 'Read' : 'Played'} {progress.timesPlayed}x
                 </span>
               )}
-              <ApperIcon name="Play" size={16} className="text-primary" />
+              <ApperIcon name={game.category === 'storybook' ? "BookOpen" : "Play"} size={16} className="text-primary" />
             </div>
           )}
         </div>
