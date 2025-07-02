@@ -1,0 +1,31 @@
+{
+  "dailyGoals": [
+    {
+      "Id": 1,
+      "profileId": 1,
+      "date": "2024-01-25T00:00:00Z",
+      "targetMinutes": 20,
+      "completedMinutes": 15,
+      "gamesPlayed": [1, 2],
+      "skillsPracticed": ["counting", "addition"]
+    },
+    {
+      "Id": 2,
+      "profileId": 2,
+      "date": "2024-01-25T00:00:00Z",
+      "targetMinutes": 15,
+      "completedMinutes": 12,
+      "gamesPlayed": [1, 6],
+      "skillsPracticed": ["counting", "phonics"]
+    },
+    {
+      "Id": 3,
+      "profileId": 3,
+      "date": "2024-01-25T00:00:00Z",
+      "targetMinutes": 25,
+      "completedMinutes": 23,
+      "gamesPlayed": [2, 7],
+      "skillsPracticed": ["addition", "word_building"]
+    }
+  ]
+}

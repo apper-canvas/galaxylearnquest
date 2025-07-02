@@ -1,0 +1,74 @@
+{
+  "gameProgress": [
+    {
+      "Id": 1,
+      "profileId": 1,
+      "gameId": 1,
+      "highScore": 85,
+      "starsEarned": 3,
+      "timesPlayed": 12,
+      "lastPlayed": "2024-01-25T16:30:00Z",
+      "difficultyLevel": "medium"
+    },
+    {
+      "Id": 2,
+      "profileId": 1,
+      "gameId": 2,
+      "highScore": 92,
+      "starsEarned": 3,
+      "timesPlayed": 8,
+      "lastPlayed": "2024-01-25T15:45:00Z",
+      "difficultyLevel": "medium"
+    },
+    {
+      "Id": 3,
+      "profileId": 1,
+      "gameId": 5,
+      "highScore": 78,
+      "starsEarned": 2,
+      "timesPlayed": 15,
+      "lastPlayed": "2024-01-24T14:20:00Z",
+      "difficultyLevel": "easy"
+    },
+    {
+      "Id": 4,
+      "profileId": 2,
+      "gameId": 1,
+      "highScore": 65,
+      "starsEarned": 2,
+      "timesPlayed": 6,
+      "lastPlayed": "2024-01-25T11:15:00Z",
+      "difficultyLevel": "easy"
+    },
+    {
+      "Id": 5,
+      "profileId": 2,
+      "gameId": 6,
+      "highScore": 95,
+      "starsEarned": 3,
+      "timesPlayed": 10,
+      "lastPlayed": "2024-01-25T17:00:00Z",
+      "difficultyLevel": "medium"
+    },
+    {
+      "Id": 6,
+      "profileId": 3,
+      "gameId": 2,
+      "highScore": 98,
+      "starsEarned": 3,
+      "timesPlayed": 20,
+      "lastPlayed": "2024-01-25T18:30:00Z",
+      "difficultyLevel": "hard"
+    },
+    {
+      "Id": 7,
+      "profileId": 3,
+      "gameId": 7,
+      "highScore": 89,
+      "starsEarned": 3,
+      "timesPlayed": 14,
+      "lastPlayed": "2024-01-25T19:15:00Z",
+      "difficultyLevel": "medium"
+    }
+  ]
+}

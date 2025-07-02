@@ -1,0 +1,49 @@
+{
+  "profiles": [
+    {
+      "Id": 1,
+      "name": "Emma",
+      "age": 6,
+      "avatarId": "princess",
+      "currentLevel": {
+        "math": 2,
+        "reading": 1
+      },
+      "totalStars": 47,
+      "totalCoins": 120,
+      "dailyGoalProgress": 75,
+      "achievements": ["first_game", "math_wizard", "reading_star"],
+      "createdAt": "2024-01-15T10:00:00Z"
+    },
+    {
+      "Id": 2,
+      "name": "Liam",
+      "age": 5,
+      "avatarId": "astronaut",
+      "currentLevel": {
+        "math": 1,
+        "reading": 2
+      },
+      "totalStars": 32,
+      "totalCoins": 85,
+      "dailyGoalProgress": 60,
+      "achievements": ["first_game", "reading_champion"],
+      "createdAt": "2024-01-20T14:30:00Z"
+    },
+    {
+      "Id": 3,
+      "name": "Sophie",
+      "age": 8,
+      "avatarId": "scientist",
+      "currentLevel": {
+        "math": 3,
+        "reading": 3
+      },
+      "totalStars": 89,
+      "totalCoins": 245,
+      "dailyGoalProgress": 90,
+      "achievements": ["first_game", "math_wizard", "reading_star", "daily_champion", "super_learner"],
+      "createdAt": "2024-01-10T09:15:00Z"
+    }
+  ]
+}
